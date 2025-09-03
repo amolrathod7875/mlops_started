@@ -6,3 +6,4 @@ plotly
 scikit-learn
 nbformat>=4.2.0
 streamlit
+fastapi
