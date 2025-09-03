@@ -7,7 +7,7 @@ scaler = joblib.load('scaler.pkl')
 st.title("Test Score Predictor ")
 st.write("Enter the number of hours studied")
 
-hours = st.number_input("Hours studied :",min_value=0.0, steps=1.0)
+hours = st.number_input("Hours studied :",min_value=0.0, step=1.0)
 
 if st.button("Predict"):
     try:
