@@ -4,10 +4,16 @@ import numpy as np
 from pydantic import BaseModel
 from fastapi import FastAPI
 
-model = joblib.load("LinearRegression_model.pkl")
-scaler = joblib.load('scaler.pkl')
+model = None
+scaler = None
 
 app = FastAPI()
+
+@app.on_event("startup")
+async def load_modal():
+    global model,scaler
+    model = joblib.load('LinearRegression_model.pkl')
+    scaler = joblib.load('scaler.pkl')
 
 class PredictionRequests(BaseModel):
     hours_studied: float
