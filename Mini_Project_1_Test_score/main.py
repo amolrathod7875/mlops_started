@@ -5,18 +5,27 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi import HTTPException
 import logging
+from dotenv import load_dotenv
+import os
+
 
 model = None
 scaler = None
+
+load_dotenv()
 
 app = FastAPI()
 
 @app.on_event("startup")
 async def load_modal():
+    global model,scaler
     try:
-        global model,scaler
-        model = joblib.load('LinearRegression_model.pkl')
-        scaler = joblib.load('scaler.pkl')
+        model_path = os.getenv("MODEL_PATH",'LinearRegression_model.pkl')
+        scaler_path = os.getenv('SCALER_PATH','scaler.pkl')
+
+        model = joblib.load(model_path)
+        scaler = joblib.load(scaler_path)
+
         logging.info('Model And Scaler have been Loaded Successfully')
 
     except Exception as e:
