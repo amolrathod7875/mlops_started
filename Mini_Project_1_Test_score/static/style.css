@@ -1,0 +1,112 @@
+/* Google Fonts for the 'Inter' font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Tailwind CSS is included via CDN in the HTML files */
+
+/* Body and container styles */
+body {
+    font-family: 'Inter', sans-serif;
+    /* Dark, elegant background */
+    background: linear-gradient(135deg, #1a1a1a, #000000);
+    color: #f0f0f0; /* Light text for contrast */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Card styling */
+.bg-white {
+    background-color: #262626; /* Darker background for the card */
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Deeper shadow for depth */
+    animation: fadeIn 0.8s ease-out;
+    border: none;
+    padding: 3rem 4rem;
+    max-width: 38rem;
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Typography improvements */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #f8f8f8; /* Very light color for heading */
+    margin-bottom: 0.5rem;
+}
+
+.text-gray-700 {
+    color: #b0b0b0; /* Lighter gray for subtext */
+    font-weight: 500;
+}
+
+.text-gray-500 {
+    color: #888888; /* Darker gray for subtle text */
+}
+
+/* Button enhancements */
+.bg-indigo-600 {
+    background-color: #ff8c00; /* Vibrant orange for the primary button */
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 2rem;
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: #1a1a1a; /* Dark text on the orange button */
+}
+
+.bg-indigo-600:hover {
+    background-color: #e67e22; /* A slightly darker orange on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
+}
+
+.bg-gray-300 {
+    background-color: #444444; /* Dark gray for the secondary button */
+    color: #e0e0e0;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.bg-gray-300:hover {
+    background-color: #555555;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(68, 68, 68, 0.4);
+}
+
+/* Input field focus effect */
+.focus\:ring-indigo-500:focus {
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.25);
+    border-color: #ff8c00;
+}
+
+/* Result container styling */
+.bg-indigo-100 {
+    background-color: #333333; /* Darker background for the result box */
+    border-color: #ff8c00; /* Orange border to match the accent color */
+    border-radius: 0.75rem;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* New style for the orange prediction score text */
+.prediction-score {
+    color: #ff8c00; /* Vibrant orange color */
+    font-weight: 700;
+    font-size: 1.25em; /* Slightly larger text */
+}

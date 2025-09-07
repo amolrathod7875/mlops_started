@@ -2,6 +2,8 @@ import joblib
 import pandas as pd
 import numpy as np 
 from pydantic import BaseModel
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI
 from fastapi import HTTPException
 import logging
@@ -15,6 +17,8 @@ scaler = None
 load_dotenv()
 
 app = FastAPI()
+
+app.mount("/static",StaticFiles(directory="static"),name="static")
 
 @app.on_event("startup")
 async def load_modal():
@@ -37,9 +41,11 @@ class PredictionRequests(BaseModel):
 
 @app.get("/")
 def home():
-    return{
-        "Message":"Welcome to Amol's Prediction Model"
-    }
+    return FileResponse("static/index.html")
+
+@app.get("/predict")
+async def predict_page():
+    return FileResponse("static/predict.html")
 
 @app.post("/predict")
 def predict(request:PredictionRequests):
