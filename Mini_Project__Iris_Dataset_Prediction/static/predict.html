@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Prediction Result</h1>
+        <div class="result">
+            <p>The predicted species is: <span id="prediction">{{ prediction }}</span></p>
+            <p>This corresponds to the following encoded value: <span id="encoded_value">{{ encoded_value }}</span></p>
+        </div>
+        <a href="/">Go Back</a>
+    </div>
+
+</body>
+</html>

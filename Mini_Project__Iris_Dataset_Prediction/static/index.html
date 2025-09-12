@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Species Predictor</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+
+    <!-- Div for the custom cursor -->
+    <div class="cursor-dot"></div>
+
+    <div class="container">
+        <div class="icon-container">
+            <!-- Simple SVG Iris icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="iris-icon"><path d="M12 5l2 2-5 5-5-5 2-2z"/><path d="M12 19l-2-2 5-5 5 5-2 2z"/><path d="M5 12l2 2-5 5-5-5 2-2z" transform="rotate(90 12 12)"/><path d="M19 12l-2-2 5-5 5 5-2 2z" transform="rotate(90 12 12)"/></svg>
+        </div>
+        <h1>Iris Species Prediction</h1>
+        <p>Enter the flower's measurements to predict its species.</p>
+
+        <form id="iris-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="sepal_length">Sepal Length (cm)</label>
+                    <input type="number" id="sepal_length" name="sepal_length" step="0.1" required placeholder="e.g., 5.1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="sepal_width">Sepal Width (cm)</label>
+                    <input type="number" id="sepal_width" name="sepal_width" step="0.1" required placeholder="e.g., 3.5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="petal_length">Petal Length (cm)</label>
+                    <input type="number" id="petal_length" name="petal_length" step="0.1" required placeholder="e.g., 1.4">
+                </div>
+                
+                <div class="form-group">
+                    <label for="petal_width">Petal Width (cm)</label>
+                    <input type="number" id="petal_width" name="petal_width" step="0.1" required placeholder="e.g., 0.2">
+                </div>
+            </div>
+            
+            <button type="submit" id="predict-button">Predict Species</button>
+        </form>
+
+        <!-- Result container, hidden by default -->
+        <div id="result-container" class="result-container" style="display: none;">
+            <h2>Prediction Result</h2>
+            <p id="prediction-text"></p>
+        </div>
+
+    </div>
+
+    <script>
+        const form = document.getElementById('iris-form');
+        const resultContainer = document.getElementById('result-container');
+        const predictionText = document.getElementById('prediction-text');
+        const predictButton = document.getElementById('predict-button');
+        
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        window.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+        });
+        // -------------------------
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Add a loading state to the button
+            predictButton.textContent = 'Predicting...';
+            predictButton.disabled = true;
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.json();
+                
+                // Display the result
+                predictionText.innerHTML = `The predicted species is: <span class="prediction-highlight">${result.prediction}</span>`;
+                resultContainer.style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                predictionText.innerHTML = `<span class="error-text">An error occurred. Please try again.</span>`;
+                resultContainer.style.display = 'block';
+            } finally {
+                // Restore the button state
+                predictButton.textContent = 'Predict Species';
+                predictButton.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>
+
