@@ -4,9 +4,25 @@ from fastapi.staticfiles import StaticFiles
 import joblib
 import numpy as np
 import pandas as pd
+import logging
 
 # Load the trained model
-model = joblib.load("iris_model.pkl")
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()]
+)
+
+logger = logging.getLogger("FastAPI Iris Predictor")
+
+try:
+    model = joblib.load("iris_model.pkl")
+    logger.info("Model Loaded Successfully.")
+except Exception as e :
+    logger.error("Failed to load the model: %s",e)
+    raise RuntimeError("Model Loading Failed") from e 
+
 app = FastAPI()
 
 # Serve static files (CSS, JS)
@@ -19,8 +35,13 @@ species_mapping = {0: "Iris Setosa",
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
-    with open("static/index.html", "r") as file:
-        return file.read()
+    try:
+        with open("static/index.html", "r") as file:
+            logger.info("Home Page Served")
+            return file.read()
+    except Exception as e :
+        logger.error("Error Serving home Page:%s",e)
+        return HTMLResponse(content="Error Loading home page",status_code=500)
 
 @app.post("/predict", response_class=JSONResponse)
 async def predict_species(sepal_length: float = Form(...),
